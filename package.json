@@ -21,9 +21,10 @@
     "sonner": "^2.0.8"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.5",
     "@tailwindcss/turbopack": "4.3.3",
     "eslint": "^9",
     "eslint-config-next": "16.4.6",
-    "tailwindcss": "4.3.3"
+    "tailwindcss": "^4.3.3"
   }
 }
