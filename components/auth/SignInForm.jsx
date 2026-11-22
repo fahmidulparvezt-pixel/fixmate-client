@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import { Eye, EyeOff } from "lucide-react";
 import Logo from "@/components/layout/Logo";
+import GoogleButton from "@/components/auth/GoogleButton";
 import { signIn, useSession } from "@/lib/auth-client";
 import { DASHBOARD_HOME } from "@/lib/constants";
 
@@ -77,7 +78,7 @@ export default function SignInForm() {
     }`;
 
   return (
-    <section className="flex min-h-screen items-center justify-center px-4 py-10">
+    <section className="flex min-h-[calc(100vh-4rem)] items-center justify-center px-4 py-10">
       <div className="w-full max-w-md">
         <div className="mb-6 flex justify-center">
           <Logo />
@@ -138,6 +139,14 @@ export default function SignInForm() {
               {loading ? "Signing in..." : "Sign In"}
             </button>
           </form>
+
+          <div className="my-6 flex items-center gap-3">
+            <span className="h-px flex-1 bg-slate-200" />
+            <span className="text-xs uppercase tracking-wide text-slate-500">or</span>
+            <span className="h-px flex-1 bg-slate-200" />
+          </div>
+
+          <GoogleButton redirectTo={redirectTo || "/dashboard"} />
 
           <p className="mt-6 text-center text-sm text-slate-600">
             New to FixMate?{" "}
