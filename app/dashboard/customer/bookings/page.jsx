@@ -1,3 +1,7 @@
-export default function Page() {
-  return <p className="text-slate-600">Coming soon</p>;
+import MyBookings from "@/components/dashboard/customer/MyBookings";
+
+export const metadata = { title: "My Bookings | FixMate" };
+
+export default function BookingsPage() {
+  return <MyBookings />;
 }
