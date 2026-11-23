@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { Ban } from "lucide-react";
-
-export const metadata = { title: "Payment Cancelled | FixMate" };
-
+export const metadata = {
+  title: "Payment Cancelled | FixMate",
+};
 export default function PaymentCancelPage() {
   return (
     <section className="flex min-h-[70vh] items-center justify-center px-4 py-16">

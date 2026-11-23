@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { ArrowRight, ChevronDown, Hammer, UserRound } from "lucide-react";
 import SectionHeading from "@/components/ui/SectionHeading";
-
-export const metadata = { title: "How It Works | FixMate" };
-
+export const metadata = {
+  title: "How It Works | FixMate",
+};
 const CUSTOMER_STEPS = [
   "Create a free customer account.",
   "Browse approved services and filter by category, mode or price.",
@@ -11,7 +11,6 @@ const CUSTOMER_STEPS = [
   "Follow the job live from your dashboard. You can cancel while it is still requested.",
   "Pay securely online only after the technician marks the job completed.",
 ];
-
 const TECHNICIAN_STEPS = [
   "Create a technician account and complete your profile.",
   "List your repair services with a photo, price, area and service mode.",
@@ -19,14 +18,28 @@ const TECHNICIAN_STEPS = [
   "Accept or reject incoming requests, then move each job forward.",
   "Set the final amount when you complete the job and get paid by the customer.",
 ];
-
 const PIPELINE = [
-  { label: "Requested", text: "Customer sends the request", style: "bg-blue-100 text-blue-700" },
-  { label: "Accepted", text: "Technician confirms the job", style: "bg-indigo-100 text-indigo-700" },
-  { label: "In Progress", text: "Repair work has started", style: "bg-amber-100 text-amber-700" },
-  { label: "Completed", text: "Final amount is set", style: "bg-green-100 text-green-700" },
+  {
+    label: "Requested",
+    text: "Customer sends the request",
+    style: "bg-blue-100 text-blue-700",
+  },
+  {
+    label: "Accepted",
+    text: "Technician confirms the job",
+    style: "bg-indigo-100 text-indigo-700",
+  },
+  {
+    label: "In Progress",
+    text: "Repair work has started",
+    style: "bg-amber-100 text-amber-700",
+  },
+  {
+    label: "Completed",
+    text: "Final amount is set",
+    style: "bg-green-100 text-green-700",
+  },
 ];
-
 const FAQS = [
   {
     q: "Do I have to pay before the repair starts?",
@@ -45,7 +58,6 @@ const FAQS = [
     a: "Payments are processed securely by Stripe Checkout using your card.",
   },
 ];
-
 function StepList({ icon: Icon, title, steps }) {
   return (
     <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
@@ -68,7 +80,6 @@ function StepList({ icon: Icon, title, steps }) {
     </div>
   );
 }
-
 export default function AboutPage() {
   return (
     <>
@@ -102,7 +113,9 @@ export default function AboutPage() {
                 key={label}
                 className="relative rounded-2xl border border-slate-200 bg-slate-50 p-6 text-center"
               >
-                <span className={`inline-block rounded-full px-3 py-1 text-xs font-semibold ${style}`}>
+                <span
+                  className={`inline-block rounded-full px-3 py-1 text-xs font-semibold ${style}`}
+                >
                   {label}
                 </span>
                 <p className="mt-3 text-sm text-slate-600">{text}</p>

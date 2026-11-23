@@ -9,7 +9,6 @@ import StatusBadge from "@/components/dashboard/StatusBadge";
 import ServiceForm from "@/components/dashboard/technician/ServiceForm";
 import Modal from "@/components/ui/Modal";
 import { apiFetch } from "@/lib/api";
-
 function Toggle({ checked, disabled, onChange, label }) {
   return (
     <button
@@ -19,39 +18,33 @@ function Toggle({ checked, disabled, onChange, label }) {
       aria-label={label}
       disabled={disabled}
       onClick={onChange}
-      className={`relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition disabled:opacity-60 ${
-        checked ? "bg-green-500" : "bg-slate-300"
-      }`}
+      className={`relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition disabled:opacity-60 ${checked ? "bg-green-500" : "bg-slate-300"}`}
     >
       <span
-        className={`inline-block h-5 w-5 rounded-full bg-white shadow transition ${
-          checked ? "translate-x-5" : "translate-x-0.5"
-        }`}
+        className={`inline-block h-5 w-5 rounded-full bg-white shadow transition ${checked ? "translate-x-5" : "translate-x-0.5"}`}
       />
     </button>
   );
 }
-
 function TableSkeleton() {
   return (
     <div className="space-y-3 p-5">
-      {Array.from({ length: 4 }).map((_, i) => (
+      {Array.from({
+        length: 4,
+      }).map((_, i) => (
         <div key={i} className="h-16 animate-pulse rounded-xl bg-slate-100" />
       ))}
     </div>
   );
 }
-
 export default function MyServices() {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
   const [editing, setEditing] = useState(null);
   const [deleting, setDeleting] = useState(null);
   const [deleteBusy, setDeleteBusy] = useState(false);
   const [togglingId, setTogglingId] = useState("");
-
   const load = async () => {
     setLoading(true);
     setError("");
@@ -63,51 +56,71 @@ export default function MyServices() {
       setLoading(false);
     }
   };
-
   useEffect(() => {
     load();
   }, []);
-
   const handleToggle = async (service) => {
     const next = !service.isAvailable;
     setTogglingId(service._id);
-    // Age screen e change dekhai, fail korle abar ferot
-    setServices((list) => list.map((s) => (s._id === service._id ? { ...s, isAvailable: next } : s)));
+    setServices((list) =>
+      list.map((s) =>
+        s._id === service._id
+          ? {
+              ...s,
+              isAvailable: next,
+            }
+          : s,
+      ),
+    );
     try {
       await apiFetch(`/api/services/${service._id}/availability`, {
         method: "PATCH",
-        body: JSON.stringify({ isAvailable: next }),
+        body: JSON.stringify({
+          isAvailable: next,
+        }),
       });
       toast.success(next ? "Service is now available" : "Service is now hidden from public pages");
     } catch (err) {
       setServices((list) =>
-        list.map((s) => (s._id === service._id ? { ...s, isAvailable: !next } : s))
+        list.map((s) =>
+          s._id === service._id
+            ? {
+                ...s,
+                isAvailable: !next,
+              }
+            : s,
+        ),
       );
       toast.error(err?.message || "Could not update availability");
     } finally {
       setTogglingId("");
     }
   };
-
   const handleEdit = async (payload) => {
     await apiFetch(`/api/services/${editing._id}`, {
       method: "PATCH",
       body: JSON.stringify(payload),
     });
-    // Edit korle server approval abar "pending" kore dey
     setServices((list) =>
       list.map((s) =>
-        s._id === editing._id ? { ...s, ...payload, approvalStatus: "pending" } : s
-      )
+        s._id === editing._id
+          ? {
+              ...s,
+              ...payload,
+              approvalStatus: "pending",
+            }
+          : s,
+      ),
     );
     setEditing(null);
     toast.success("Service updated. It is waiting for admin approval again.");
   };
-
   const handleDelete = async () => {
     setDeleteBusy(true);
     try {
-      await apiFetch(`/api/services/${deleting._id}`, { method: "DELETE" });
+      await apiFetch(`/api/services/${deleting._id}`, {
+        method: "DELETE",
+      });
       setServices((list) => list.filter((s) => s._id !== deleting._id));
       toast.success("Service deleted");
       setDeleting(null);
@@ -117,7 +130,6 @@ export default function MyServices() {
       setDeleteBusy(false);
     }
   };
-
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
@@ -181,7 +193,6 @@ export default function MyServices() {
                   <tr key={service._id} className="align-middle">
                     <td className="px-5 py-3">
                       <div className="flex items-center gap-3">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={service.image}
                           alt={service.title}
@@ -229,12 +240,7 @@ export default function MyServices() {
         )}
       </div>
 
-      {/* Edit modal */}
-      <Modal
-        open={Boolean(editing)}
-        onClose={() => setEditing(null)}
-        title="Edit service"
-      >
+      <Modal open={Boolean(editing)} onClose={() => setEditing(null)} title="Edit service">
         {editing && (
           <>
             <p className="mb-5 rounded-lg bg-amber-50 px-4 py-3 text-sm text-amber-800">
@@ -260,7 +266,6 @@ export default function MyServices() {
         )}
       </Modal>
 
-      {/* Delete confirmation */}
       <ConfirmModal
         open={Boolean(deleting)}
         title="Delete this service?"

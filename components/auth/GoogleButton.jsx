@@ -4,10 +4,11 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { FcGoogle } from "react-icons/fc";
 import { signIn } from "@/lib/auth-client";
-
-export default function GoogleButton({ redirectTo = "/dashboard", label = "Continue with Google" }) {
+export default function GoogleButton({
+  redirectTo = "/dashboard",
+  label = "Continue with Google",
+}) {
   const [loading, setLoading] = useState(false);
-
   const handleClick = async () => {
     setLoading(true);
     try {
@@ -15,7 +16,6 @@ export default function GoogleButton({ redirectTo = "/dashboard", label = "Conti
         provider: "google",
         callbackURL: redirectTo,
       });
-      // success hole browser Google e redirect hoye jay, tai ekhane shudhu error handle
       if (error) {
         console.error("Google sign in error:", error);
         const detail = [error.status, error.statusText, error.message].filter(Boolean).join(" - ");
@@ -28,7 +28,6 @@ export default function GoogleButton({ redirectTo = "/dashboard", label = "Conti
       setLoading(false);
     }
   };
-
   return (
     <button
       type="button"

@@ -1,13 +1,23 @@
 import { BadgeCheck, Clock, Star, Wallet } from "lucide-react";
 import SectionHeading from "@/components/ui/SectionHeading";
-
 const STATS = [
-  { value: "500+", label: "Verified technicians" },
-  { value: "12,000+", label: "Jobs completed" },
-  { value: "4.8/5", label: "Average rating" },
-  { value: "100%", label: "Pay after service" },
+  {
+    value: "500+",
+    label: "Verified technicians",
+  },
+  {
+    value: "12,000+",
+    label: "Jobs completed",
+  },
+  {
+    value: "4.8/5",
+    label: "Average rating",
+  },
+  {
+    value: "100%",
+    label: "Pay after service",
+  },
 ];
-
 const POINTS = [
   {
     icon: BadgeCheck,
@@ -25,7 +35,6 @@ const POINTS = [
     text: "You pay online only once the technician marks the job completed.",
   },
 ];
-
 const TESTIMONIALS = [
   {
     name: "Nusrat Jahan",
@@ -43,7 +52,6 @@ const TESTIMONIALS = [
     text: "As a technician, FixMate gives me a proper place to list services and manage incoming jobs.",
   },
 ];
-
 export default function WhyChooseUs() {
   return (
     <section className="bg-slate-900 py-16 text-white sm:py-20">
@@ -86,7 +94,9 @@ export default function WhyChooseUs() {
           {TESTIMONIALS.map(({ name, area, text }) => (
             <figure key={name} className="flex h-full flex-col rounded-2xl bg-slate-800 p-6">
               <div className="flex gap-1 text-amber-400">
-                {Array.from({ length: 5 }).map((_, i) => (
+                {Array.from({
+                  length: 5,
+                }).map((_, i) => (
                   <Star key={i} size={16} fill="currentColor" />
                 ))}
               </div>

@@ -1,6 +1,5 @@
 import { CreditCard, Search, Send, Wrench } from "lucide-react";
 import SectionHeading from "@/components/ui/SectionHeading";
-
 const STEPS = [
   {
     icon: Search,
@@ -23,7 +22,6 @@ const STEPS = [
     text: "Pay securely online only when the job is done. No advance payment, no surprises.",
   },
 ];
-
 export default function HowItWorks() {
   return (
     <section className="bg-white py-16 sm:py-20">

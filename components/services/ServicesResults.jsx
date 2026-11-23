@@ -2,27 +2,21 @@ import Link from "next/link";
 import { SearchX } from "lucide-react";
 import ServiceCard from "@/components/services/ServiceCard";
 import { publicFetch } from "@/lib/api";
-
 const first = (value) => (Array.isArray(value) ? value[0] : value);
-
 export default async function ServicesResults({ searchParams }) {
   const params = await searchParams;
-
   const qs = new URLSearchParams();
   ["search", "category", "serviceMode", "sort"].forEach((key) => {
     const value = first(params?.[key]);
     if (value) qs.set(key, value);
   });
-
   let services = [];
   let failed = false;
-
   try {
     services = await publicFetch(`/api/services${qs.toString() ? `?${qs}` : ""}`);
   } catch {
     failed = true;
   }
-
   if (failed) {
     return (
       <div className="rounded-2xl border border-red-200 bg-red-50 p-8 text-center text-red-700">
@@ -30,7 +24,6 @@ export default async function ServicesResults({ searchParams }) {
       </div>
     );
   }
-
   if (services.length === 0) {
     return (
       <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-10 text-center">
@@ -48,7 +41,6 @@ export default async function ServicesResults({ searchParams }) {
       </div>
     );
   }
-
   return (
     <>
       <p className="mb-5 text-sm text-slate-600">

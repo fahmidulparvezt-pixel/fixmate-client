@@ -5,9 +5,7 @@ import { toast } from "sonner";
 import { Users } from "lucide-react";
 import { useSession } from "@/lib/auth-client";
 import { apiFetch } from "@/lib/api";
-
 const ROLES = ["customer", "technician", "admin"];
-
 function formatDate(value) {
   if (!value) return "-";
   return new Date(value).toLocaleDateString("en-GB", {
@@ -16,11 +14,9 @@ function formatDate(value) {
     year: "numeric",
   });
 }
-
 function Avatar({ user }) {
   if (user.image) {
     return (
-      // eslint-disable-next-line @next/next/no-img-element
       <img
         src={user.image}
         alt={user.name || "User"}
@@ -35,16 +31,13 @@ function Avatar({ user }) {
     </span>
   );
 }
-
 export default function ManageUsers() {
   const { data: session } = useSession();
   const myId = session?.user?.id;
-
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [busyId, setBusyId] = useState("");
-
   const load = async () => {
     setLoading(true);
     setError("");
@@ -56,20 +49,29 @@ export default function ManageUsers() {
       setLoading(false);
     }
   };
-
   useEffect(() => {
     load();
   }, []);
-
   const changeRole = async (user, role) => {
     if (role === user.role) return;
     setBusyId(user._id);
     try {
       await apiFetch(`/api/admin/users/${user._id}/role`, {
         method: "PATCH",
-        body: JSON.stringify({ role }),
+        body: JSON.stringify({
+          role,
+        }),
       });
-      setUsers((list) => list.map((u) => (u._id === user._id ? { ...u, role } : u)));
+      setUsers((list) =>
+        list.map((u) =>
+          u._id === user._id
+            ? {
+                ...u,
+                role,
+              }
+            : u,
+        ),
+      );
       toast.success(`${user.name} is now a ${role}`);
     } catch (err) {
       toast.error(err?.message || "Could not change the role");
@@ -77,7 +79,6 @@ export default function ManageUsers() {
       setBusyId("");
     }
   };
-
   return (
     <div className="space-y-6">
       <div>
@@ -90,7 +91,9 @@ export default function ManageUsers() {
       <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
         {loading ? (
           <div className="space-y-3 p-5">
-            {Array.from({ length: 5 }).map((_, i) => (
+            {Array.from({
+              length: 5,
+            }).map((_, i) => (
               <div key={i} className="h-14 animate-pulse rounded-xl bg-slate-100" />
             ))}
           </div>

@@ -1,6 +1,5 @@
 import { MongoClient } from "mongodb";
 import { auth } from "../lib/auth.js";
-
 const USERS = [
   {
     name: "FixMate Admin",
@@ -48,20 +47,22 @@ const USERS = [
     bio: "",
   },
 ];
-
 const client = new MongoClient(process.env.MONGODB_URI);
-
 try {
   await client.connect();
   const users = client.db(process.env.DB_NAME).collection("user");
-
   for (const u of USERS) {
-    const existing = await users.findOne({ email: u.email });
-
+    const existing = await users.findOne({
+      email: u.email,
+    });
     if (!existing) {
       try {
         await auth.api.signUpEmail({
-          body: { name: u.name, email: u.email, password: u.password },
+          body: {
+            name: u.name,
+            email: u.email,
+            password: u.password,
+          },
         });
         console.log(`Created  ${u.email}`);
       } catch (err) {
@@ -71,14 +72,20 @@ try {
     } else {
       console.log(`Exists   ${u.email}`);
     }
-
-    // Role ar profile directly database e set (admin sign up diye hoy na)
     await users.updateOne(
-      { email: u.email },
-      { $set: { role: u.role, phone: u.phone, area: u.area, bio: u.bio } }
+      {
+        email: u.email,
+      },
+      {
+        $set: {
+          role: u.role,
+          phone: u.phone,
+          area: u.area,
+          bio: u.bio,
+        },
+      },
     );
   }
-
   console.log("User seed finished.");
 } finally {
   await client.close();

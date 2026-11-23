@@ -1,7 +1,9 @@
 export default function ServiceGridSkeleton({ count = 8 }) {
   return (
     <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-      {Array.from({ length: count }).map((_, i) => (
+      {Array.from({
+        length: count,
+      }).map((_, i) => (
         <div key={i} className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
           <div className="h-48 animate-pulse bg-slate-200" />
           <div className="space-y-3 p-5">

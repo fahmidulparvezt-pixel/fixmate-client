@@ -5,24 +5,42 @@ import { ClipboardList } from "lucide-react";
 import StatusBadge from "@/components/dashboard/StatusBadge";
 import { apiFetch } from "@/lib/api";
 import { formatDate, formatMoney } from "@/lib/format";
-
 const FILTERS = [
-  { value: "all", label: "All" },
-  { value: "requested", label: "Requested" },
-  { value: "accepted", label: "Accepted" },
-  { value: "in-progress", label: "In Progress" },
-  { value: "completed", label: "Completed" },
-  { value: "rejected", label: "Rejected" },
-  { value: "cancelled", label: "Cancelled" },
+  {
+    value: "all",
+    label: "All",
+  },
+  {
+    value: "requested",
+    label: "Requested",
+  },
+  {
+    value: "accepted",
+    label: "Accepted",
+  },
+  {
+    value: "in-progress",
+    label: "In Progress",
+  },
+  {
+    value: "completed",
+    label: "Completed",
+  },
+  {
+    value: "rejected",
+    label: "Rejected",
+  },
+  {
+    value: "cancelled",
+    label: "Cancelled",
+  },
 ];
-
 export default function AllBookings() {
   const [filter, setFilter] = useState("all");
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [reloadKey, setReloadKey] = useState(0);
-
   useEffect(() => {
     let cancelled = false;
     (async () => {
@@ -42,7 +60,6 @@ export default function AllBookings() {
       cancelled = true;
     };
   }, [filter, reloadKey]);
-
   return (
     <div className="space-y-6">
       <div>
@@ -57,11 +74,7 @@ export default function AllBookings() {
           <button
             key={value}
             onClick={() => setFilter(value)}
-            className={`rounded-full px-4 py-1.5 text-sm font-semibold transition ${
-              filter === value
-                ? "bg-blue-600 text-white"
-                : "border border-slate-300 bg-white text-slate-600 hover:bg-slate-50"
-            }`}
+            className={`rounded-full px-4 py-1.5 text-sm font-semibold transition ${filter === value ? "bg-blue-600 text-white" : "border border-slate-300 bg-white text-slate-600 hover:bg-slate-50"}`}
           >
             {label}
           </button>
@@ -71,7 +84,9 @@ export default function AllBookings() {
       <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
         {loading ? (
           <div className="space-y-3 p-5">
-            {Array.from({ length: 5 }).map((_, i) => (
+            {Array.from({
+              length: 5,
+            }).map((_, i) => (
               <div key={i} className="h-14 animate-pulse rounded-xl bg-slate-100" />
             ))}
           </div>

@@ -4,33 +4,34 @@ import { useEffect, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Search, X } from "lucide-react";
 import { CATEGORIES, SERVICE_MODES } from "@/lib/constants";
-
 const SORT_OPTIONS = [
-  { value: "", label: "Newest" },
-  { value: "price-asc", label: "Price: Low to High" },
-  { value: "price-desc", label: "Price: High to Low" },
+  {
+    value: "",
+    label: "Newest",
+  },
+  {
+    value: "price-asc",
+    label: "Price: Low to High",
+  },
+  {
+    value: "price-desc",
+    label: "Price: High to Low",
+  },
 ];
-
 const selectClass =
   "w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200";
-
 export default function ServiceFilters() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-
   const urlSearch = searchParams.get("search") || "";
   const category = searchParams.get("category") || "";
   const serviceMode = searchParams.get("serviceMode") || "";
   const sort = searchParams.get("sort") || "";
-
   const [search, setSearch] = useState(urlSearch);
-
-  // URL change hole (back button, clear, category card) input o update hobe
   useEffect(() => {
     setSearch(urlSearch);
   }, [urlSearch]);
-
   const updateParams = (changes) => {
     const params = new URLSearchParams(searchParams.toString());
     Object.entries(changes).forEach(([key, value]) => {
@@ -38,16 +39,17 @@ export default function ServiceFilters() {
       else params.delete(key);
     });
     const qs = params.toString();
-    router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
+    router.replace(qs ? `${pathname}?${qs}` : pathname, {
+      scroll: false,
+    });
   };
-
   const handleSearch = (e) => {
     e.preventDefault();
-    updateParams({ search: search.trim() });
+    updateParams({
+      search: search.trim(),
+    });
   };
-
   const hasFilters = urlSearch || category || serviceMode || sort;
-
   return (
     <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
       <form onSubmit={handleSearch} className="flex flex-col gap-3 sm:flex-row">
@@ -76,7 +78,11 @@ export default function ServiceFilters() {
       <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <select
           value={category}
-          onChange={(e) => updateParams({ category: e.target.value })}
+          onChange={(e) =>
+            updateParams({
+              category: e.target.value,
+            })
+          }
           aria-label="Filter by category"
           className={selectClass}
         >
@@ -90,7 +96,11 @@ export default function ServiceFilters() {
 
         <select
           value={serviceMode}
-          onChange={(e) => updateParams({ serviceMode: e.target.value })}
+          onChange={(e) =>
+            updateParams({
+              serviceMode: e.target.value,
+            })
+          }
           aria-label="Filter by service mode"
           className={selectClass}
         >
@@ -104,7 +114,11 @@ export default function ServiceFilters() {
 
         <select
           value={sort}
-          onChange={(e) => updateParams({ sort: e.target.value })}
+          onChange={(e) =>
+            updateParams({
+              sort: e.target.value,
+            })
+          }
           aria-label="Sort services"
           className={selectClass}
         >
@@ -117,7 +131,11 @@ export default function ServiceFilters() {
 
         <button
           type="button"
-          onClick={() => router.replace(pathname, { scroll: false })}
+          onClick={() =>
+            router.replace(pathname, {
+              scroll: false,
+            })
+          }
           disabled={!hasFilters}
           className="flex items-center justify-center gap-2 rounded-lg border border-slate-300 px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
         >

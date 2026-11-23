@@ -3,18 +3,18 @@
 import { useEffect } from "react";
 import Link from "next/link";
 import { AlertTriangle, Home, RotateCcw } from "lucide-react";
-
 export default function Error({ error, reset }) {
   useEffect(() => {
     console.error(error);
   }, [error]);
-
   return (
     <main className="flex min-h-[70vh] flex-col items-center justify-center px-4 text-center">
       <span className="flex h-20 w-20 items-center justify-center rounded-full bg-red-100 text-red-600">
         <AlertTriangle size={40} />
       </span>
-      <h1 className="mt-6 text-3xl font-bold tracking-tight text-slate-900">Something went wrong</h1>
+      <h1 className="mt-6 text-3xl font-bold tracking-tight text-slate-900">
+        Something went wrong
+      </h1>
       <p className="mt-3 max-w-md text-slate-600">
         An unexpected error happened while loading this page. Please try again, or go back to the
         home page.

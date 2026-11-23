@@ -2,7 +2,6 @@
 
 import { Loader2, TriangleAlert } from "lucide-react";
 import Modal from "@/components/ui/Modal";
-
 export default function ConfirmModal({
   open,
   title = "Are you sure?",

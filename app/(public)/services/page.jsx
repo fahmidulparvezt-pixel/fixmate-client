@@ -3,9 +3,9 @@ import ServiceFilters from "@/components/services/ServiceFilters";
 import ServicesResults from "@/components/services/ServicesResults";
 import ServiceGridSkeleton from "@/components/services/ServiceGridSkeleton";
 import SectionHeading from "@/components/ui/SectionHeading";
-
-export const metadata = { title: "Browse Services | FixMate" };
-
+export const metadata = {
+  title: "Browse Services | FixMate",
+};
 export default function ServicesPage({ searchParams }) {
   return (
     <section className="py-12 sm:py-16">
@@ -18,7 +18,9 @@ export default function ServicesPage({ searchParams }) {
 
         <div className="mt-10">
           <Suspense
-            fallback={<div className="h-40 animate-pulse rounded-2xl border border-slate-200 bg-white" />}
+            fallback={
+              <div className="h-40 animate-pulse rounded-2xl border border-slate-200 bg-white" />
+            }
           >
             <ServiceFilters />
           </Suspense>

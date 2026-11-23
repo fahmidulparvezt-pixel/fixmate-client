@@ -9,74 +9,65 @@ import Logo from "@/components/layout/Logo";
 import GoogleButton from "@/components/auth/GoogleButton";
 import { signIn, useSession } from "@/lib/auth-client";
 import { DASHBOARD_HOME } from "@/lib/constants";
-
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-// shudhu nijer site er path e redirect hobe (open redirect atkate)
 function getSafeRedirect(value) {
   if (value && value.startsWith("/") && !value.startsWith("//")) return value;
   return null;
 }
-
 export default function SignInForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectTo = getSafeRedirect(searchParams.get("redirect"));
   const { data: session } = useSession();
-
-  const [form, setForm] = useState({ email: "", password: "" });
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-
-  // already logged in hole redirect page ba nijer dashboard e pathao
   useEffect(() => {
     if (session?.user) {
       router.replace(redirectTo || DASHBOARD_HOME[session.user.role] || DASHBOARD_HOME.customer);
     }
   }, [session, redirectTo, router]);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
-    if (errors[name]) setErrors((prev) => ({ ...prev, [name]: undefined }));
+    setForm((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+    if (errors[name])
+      setErrors((prev) => ({
+        ...prev,
+        [name]: undefined,
+      }));
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const found = {};
     if (!form.email.trim()) found.email = "Email is required";
     else if (!EMAIL_REGEX.test(form.email)) found.email = "Enter a valid email address";
     if (!form.password) found.password = "Password is required";
     setErrors(found);
     if (Object.keys(found).length > 0) return;
-
     setLoading(true);
     const { data, error } = await signIn.email({
       email: form.email.trim().toLowerCase(),
       password: form.password,
     });
     setLoading(false);
-
     if (error) {
       toast.error(error.message || "Invalid email or password");
       return;
     }
-
     toast.success("Signed in successfully!");
     const role = data?.user?.role || "customer";
     router.push(redirectTo || DASHBOARD_HOME[role] || DASHBOARD_HOME.customer);
     router.refresh();
   };
-
   const inputClass = (hasError) =>
-    `mt-1.5 w-full rounded-lg border px-4 py-2.5 text-slate-900 outline-none transition focus:ring-2 ${
-      hasError
-        ? "border-red-400 focus:ring-red-200"
-        : "border-slate-300 focus:border-blue-500 focus:ring-blue-200"
-    }`;
-
+    `mt-1.5 w-full rounded-lg border px-4 py-2.5 text-slate-900 outline-none transition focus:ring-2 ${hasError ? "border-red-400 focus:ring-red-200" : "border-slate-300 focus:border-blue-500 focus:ring-blue-200"}`;
   return (
     <section className="flex min-h-[calc(100vh-4rem)] items-center justify-center px-4 py-10">
       <div className="w-full max-w-md">

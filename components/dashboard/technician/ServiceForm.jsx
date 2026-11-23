@@ -6,13 +6,11 @@ import { ImagePlus, Loader2 } from "lucide-react";
 import { useSession } from "@/lib/auth-client";
 import { CATEGORIES, SERVICE_MODES } from "@/lib/constants";
 import { imageError, uploadImage } from "@/lib/imgbb";
-
 const inputClass =
   "w-full rounded-lg border px-4 py-2.5 text-sm text-slate-900 outline-none transition focus:ring-2";
 const okBorder = "border-slate-300 focus:border-blue-500 focus:ring-blue-200";
 const errBorder = "border-red-400 focus:border-red-500 focus:ring-red-200";
 const readOnlyClass = `${inputClass} ${okBorder} cursor-not-allowed bg-slate-50 text-slate-500`;
-
 const EMPTY = {
   title: "",
   category: "",
@@ -23,25 +21,22 @@ const EMPTY = {
   serviceArea: "",
   image: "",
 };
-
 function validate(values, hasImage) {
   const errors = {};
   if (values.title.trim().length < 3) errors.title = "Title must be at least 3 characters";
   if (!CATEGORIES.includes(values.category)) errors.category = "Please choose a category";
   if (values.description.trim().length < 10)
     errors.description = "Description must be at least 10 characters";
-
   const price = Number(values.basePrice);
   if (values.basePrice === "" || !Number.isFinite(price) || price <= 0)
     errors.basePrice = "Enter a price greater than 0";
-
   if (!values.estimatedDuration.trim()) errors.estimatedDuration = "Estimated duration is required";
-  if (!SERVICE_MODES.includes(values.serviceMode)) errors.serviceMode = "Please choose a service mode";
+  if (!SERVICE_MODES.includes(values.serviceMode))
+    errors.serviceMode = "Please choose a service mode";
   if (!values.serviceArea.trim()) errors.serviceArea = "Service area is required";
   if (!hasImage) errors.image = "Please upload a service image";
   return errors;
 }
-
 export default function ServiceForm({
   initialValues,
   submitLabel = "Add Service",
@@ -50,27 +45,32 @@ export default function ServiceForm({
 }) {
   const { data: session } = useSession();
   const user = session?.user;
-
-  const [values, setValues] = useState({ ...EMPTY, ...(initialValues || {}) });
+  const [values, setValues] = useState({
+    ...EMPTY,
+    ...(initialValues || {}),
+  });
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState("");
   const [errors, setErrors] = useState({});
   const [saving, setSaving] = useState(false);
-
   useEffect(() => {
     return () => {
       if (preview) URL.revokeObjectURL(preview);
     };
   }, [preview]);
-
   const shownImage = preview || values.image;
-
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setValues((v) => ({ ...v, [name]: value }));
-    if (errors[name]) setErrors((er) => ({ ...er, [name]: undefined }));
+    setValues((v) => ({
+      ...v,
+      [name]: value,
+    }));
+    if (errors[name])
+      setErrors((er) => ({
+        ...er,
+        [name]: undefined,
+      }));
   };
-
   const handleFile = (e) => {
     const picked = e.target.files?.[0];
     e.target.value = "";
@@ -82,15 +82,17 @@ export default function ServiceForm({
     }
     setFile(picked);
     setPreview(URL.createObjectURL(picked));
-    if (errors.image) setErrors((er) => ({ ...er, image: undefined }));
+    if (errors.image)
+      setErrors((er) => ({
+        ...er,
+        image: undefined,
+      }));
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const found = validate(values, Boolean(file || values.image));
     setErrors(found);
     if (Object.keys(found).length > 0) return;
-
     setSaving(true);
     try {
       const image = file ? await uploadImage(file) : values.image;
@@ -104,9 +106,10 @@ export default function ServiceForm({
         serviceArea: values.serviceArea.trim(),
         image,
       });
-
       if (resetOnSuccess) {
-        setValues({ ...EMPTY });
+        setValues({
+          ...EMPTY,
+        });
         setFile(null);
         setPreview("");
       }
@@ -116,9 +119,7 @@ export default function ServiceForm({
       setSaving(false);
     }
   };
-
   const field = (name) => `${inputClass} ${errors[name] ? errBorder : okBorder}`;
-
   return (
     <form onSubmit={handleSubmit} noValidate className="space-y-5">
       <div className="grid gap-5 sm:grid-cols-2">
@@ -260,12 +261,9 @@ export default function ServiceForm({
         <div className="sm:col-span-2">
           <span className="mb-1 block text-sm font-medium text-slate-700">Service image</span>
           <div
-            className={`flex flex-col items-center gap-4 rounded-xl border border-dashed p-4 sm:flex-row ${
-              errors.image ? "border-red-400 bg-red-50/40" : "border-slate-300 bg-slate-50"
-            }`}
+            className={`flex flex-col items-center gap-4 rounded-xl border border-dashed p-4 sm:flex-row ${errors.image ? "border-red-400 bg-red-50/40" : "border-slate-300 bg-slate-50"}`}
           >
             {shownImage ? (
-              // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={shownImage}
                 alt="Service preview"

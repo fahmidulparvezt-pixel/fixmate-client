@@ -5,12 +5,10 @@ import Link from "next/link";
 import { Receipt } from "lucide-react";
 import { apiFetch } from "@/lib/api";
 import { formatDate, formatMoney } from "@/lib/format";
-
 export default function PaymentHistory() {
   const [payments, setPayments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
   const load = async () => {
     setLoading(true);
     setError("");
@@ -22,11 +20,9 @@ export default function PaymentHistory() {
       setLoading(false);
     }
   };
-
   useEffect(() => {
     load();
   }, []);
-
   return (
     <div className="space-y-6">
       <div>
@@ -37,7 +33,9 @@ export default function PaymentHistory() {
       <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
         {loading ? (
           <div className="space-y-3 p-5">
-            {Array.from({ length: 4 }).map((_, i) => (
+            {Array.from({
+              length: 4,
+            }).map((_, i) => (
               <div key={i} className="h-14 animate-pulse rounded-xl bg-slate-100" />
             ))}
           </div>
@@ -82,9 +80,15 @@ export default function PaymentHistory() {
                   <tr key={p._id}>
                     <td className="px-5 py-3 font-medium text-slate-900">{p.serviceTitle}</td>
                     <td className="px-5 py-3 text-slate-600">{p.technicianName}</td>
-                    <td className="px-5 py-3 font-semibold text-green-700">{formatMoney(p.amount)}</td>
-                    <td className="px-5 py-3 font-mono text-xs text-slate-600">{p.transactionId}</td>
-                    <td className="whitespace-nowrap px-5 py-3 text-slate-600">{formatDate(p.paidAt)}</td>
+                    <td className="px-5 py-3 font-semibold text-green-700">
+                      {formatMoney(p.amount)}
+                    </td>
+                    <td className="px-5 py-3 font-mono text-xs text-slate-600">
+                      {p.transactionId}
+                    </td>
+                    <td className="whitespace-nowrap px-5 py-3 text-slate-600">
+                      {formatDate(p.paidAt)}
+                    </td>
                   </tr>
                 ))}
               </tbody>

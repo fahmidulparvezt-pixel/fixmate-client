@@ -15,7 +15,6 @@ import {
 import { BadgeCheck, DollarSign, Hammer, Users } from "lucide-react";
 import StatsCard from "@/components/dashboard/StatsCard";
 import { apiFetch } from "@/lib/api";
-
 const STATUS_COLORS = {
   requested: "#3b82f6",
   accepted: "#6366f1",
@@ -24,12 +23,10 @@ const STATUS_COLORS = {
   rejected: "#ef4444",
   cancelled: "#9ca3af",
 };
-
 export default function AdminOverview() {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
   const load = async () => {
     setLoading(true);
     setError("");
@@ -41,16 +38,13 @@ export default function AdminOverview() {
       setLoading(false);
     }
   };
-
   useEffect(() => {
     load();
   }, []);
-
   const chartData = Object.keys(STATUS_COLORS).map((status) => ({
     status,
     count: stats?.bookingsByStatus?.find((s) => s.status === status)?.count || 0,
   }));
-
   return (
     <div className="space-y-6">
       <div>
@@ -106,8 +100,9 @@ export default function AdminOverview() {
           {!loading && stats?.pendingServices > 0 && (
             <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-purple-200 bg-purple-50 p-4">
               <p className="text-sm font-medium text-purple-900">
-                {stats.pendingServices} {stats.pendingServices === 1 ? "service is" : "services are"}{" "}
-                waiting for your approval.
+                {stats.pendingServices}{" "}
+                {stats.pendingServices === 1 ? "service is" : "services are"} waiting for your
+                approval.
               </p>
               <Link
                 href="/dashboard/admin/services"
@@ -132,11 +127,33 @@ export default function AdminOverview() {
             ) : (
               <div className="mt-4 h-64 w-full">
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={chartData} margin={{ top: 8, right: 8, left: -20, bottom: 0 }}>
+                  <BarChart
+                    data={chartData}
+                    margin={{
+                      top: 8,
+                      right: 8,
+                      left: -20,
+                      bottom: 0,
+                    }}
+                  >
                     <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                    <XAxis dataKey="status" tick={{ fontSize: 12 }} />
-                    <YAxis allowDecimals={false} tick={{ fontSize: 12 }} />
-                    <Tooltip cursor={{ fill: "#f1f5f9" }} />
+                    <XAxis
+                      dataKey="status"
+                      tick={{
+                        fontSize: 12,
+                      }}
+                    />
+                    <YAxis
+                      allowDecimals={false}
+                      tick={{
+                        fontSize: 12,
+                      }}
+                    />
+                    <Tooltip
+                      cursor={{
+                        fill: "#f1f5f9",
+                      }}
+                    />
                     <Bar dataKey="count" name="Bookings" radius={[6, 6, 0, 0]}>
                       {chartData.map((entry) => (
                         <Cell key={entry.status} fill={STATUS_COLORS[entry.status]} />

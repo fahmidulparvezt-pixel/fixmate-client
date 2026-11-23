@@ -4,9 +4,9 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, Clock, MapPin, UserRound, Wrench } from "lucide-react";
 import { publicFetch } from "@/lib/api";
 import RequestRepair from "@/components/services/RequestRepair";
-
-export const metadata = { title: "Service Details | FixMate" };
-
+export const metadata = {
+  title: "Service Details | FixMate",
+};
 function DetailsSkeleton() {
   return (
     <div className="grid gap-10 lg:grid-cols-3">
@@ -20,7 +20,6 @@ function DetailsSkeleton() {
     </div>
   );
 }
-
 function InfoRow({ icon: Icon, label, value }) {
   return (
     <li className="flex items-start gap-3">
@@ -32,10 +31,8 @@ function InfoRow({ icon: Icon, label, value }) {
     </li>
   );
 }
-
 async function ServiceDetails({ params }) {
   const { id } = await params;
-
   let service = null;
   try {
     service = await publicFetch(`/api/services/${id}`);
@@ -43,15 +40,11 @@ async function ServiceDetails({ params }) {
     notFound();
   }
   if (!service?._id) notFound();
-
   const tech = service.technician || {};
   const techName = tech.name || service.technicianName;
-
   return (
     <div className="grid gap-10 lg:grid-cols-3">
-      {/* Left: image + description */}
       <div className="lg:col-span-2">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={service.image}
           alt={service.title}
@@ -71,7 +64,6 @@ async function ServiceDetails({ params }) {
         </p>
       </div>
 
-      {/* Right: price card + technician */}
       <aside className="space-y-6 lg:sticky lg:top-24 lg:self-start">
         <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
           <p className="text-sm text-slate-500">Starting from</p>
@@ -101,7 +93,6 @@ async function ServiceDetails({ params }) {
           </h2>
           <div className="mt-4 flex items-center gap-4">
             {tech.image ? (
-              // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={tech.image}
                 alt={techName}
@@ -128,7 +119,6 @@ async function ServiceDetails({ params }) {
     </div>
   );
 }
-
 export default function ServiceDetailsPage({ params }) {
   return (
     <section className="py-10 sm:py-14">

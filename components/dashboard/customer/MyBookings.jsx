@@ -8,16 +8,13 @@ import ConfirmModal from "@/components/dashboard/ConfirmModal";
 import StatusBadge from "@/components/dashboard/StatusBadge";
 import { apiFetch } from "@/lib/api";
 import { formatDate, formatMoney } from "@/lib/format";
-
 export default function MyBookings() {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
   const [cancelling, setCancelling] = useState(null);
   const [cancelBusy, setCancelBusy] = useState(false);
   const [payingId, setPayingId] = useState("");
-
   const load = async () => {
     setLoading(true);
     setError("");
@@ -29,17 +26,24 @@ export default function MyBookings() {
       setLoading(false);
     }
   };
-
   useEffect(() => {
     load();
   }, []);
-
   const handleCancel = async () => {
     setCancelBusy(true);
     try {
-      await apiFetch(`/api/bookings/${cancelling._id}/cancel`, { method: "PATCH" });
+      await apiFetch(`/api/bookings/${cancelling._id}/cancel`, {
+        method: "PATCH",
+      });
       setBookings((list) =>
-        list.map((b) => (b._id === cancelling._id ? { ...b, status: "cancelled" } : b))
+        list.map((b) =>
+          b._id === cancelling._id
+            ? {
+                ...b,
+                status: "cancelled",
+              }
+            : b,
+        ),
       );
       toast.success("Booking cancelled");
       setCancelling(null);
@@ -51,13 +55,14 @@ export default function MyBookings() {
       setCancelBusy(false);
     }
   };
-
   const handlePay = async (booking) => {
     setPayingId(booking._id);
     try {
       const { url } = await apiFetch("/api/payments/create-checkout-session", {
         method: "POST",
-        body: JSON.stringify({ bookingId: booking._id }),
+        body: JSON.stringify({
+          bookingId: booking._id,
+        }),
       });
       if (!url) throw new Error("Could not start the payment");
       window.location.href = url;
@@ -66,21 +71,22 @@ export default function MyBookings() {
       setPayingId("");
     }
   };
-
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold tracking-tight text-slate-900">My Bookings</h1>
         <p className="mt-1 text-sm text-slate-600">
-          Track your repair requests. You can cancel while a request is still Requested, and pay once
-          it is Completed.
+          Track your repair requests. You can cancel while a request is still Requested, and pay
+          once it is Completed.
         </p>
       </div>
 
       <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
         {loading ? (
           <div className="space-y-3 p-5">
-            {Array.from({ length: 4 }).map((_, i) => (
+            {Array.from({
+              length: 4,
+            }).map((_, i) => (
               <div key={i} className="h-16 animate-pulse rounded-xl bg-slate-100" />
             ))}
           </div>
@@ -129,7 +135,6 @@ export default function MyBookings() {
                     <tr key={b._id} className="align-middle">
                       <td className="px-5 py-3">
                         <div className="flex items-center gap-3">
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
                             src={b.serviceImage}
                             alt={b.serviceTitle}
@@ -146,7 +151,9 @@ export default function MyBookings() {
                       </td>
                       <td className="px-5 py-3">
                         <p className="font-semibold text-slate-900">
-                          {b.status === "completed" ? formatMoney(b.finalAmount) : formatMoney(b.basePrice)}
+                          {b.status === "completed"
+                            ? formatMoney(b.finalAmount)
+                            : formatMoney(b.basePrice)}
                         </p>
                         <p className="text-xs text-slate-500">
                           {b.status === "completed" ? "Final amount" : "Base price"}

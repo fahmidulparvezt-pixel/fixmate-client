@@ -2,9 +2,7 @@
 
 import { useEffect } from "react";
 import { X } from "lucide-react";
-
 export default function Modal({ open, onClose, title, children, maxWidth = "max-w-2xl" }) {
-  // Escape chaple bondho, ar modal khola thakle background scroll bondho
   useEffect(() => {
     if (!open) return;
     const onKey = (e) => e.key === "Escape" && onClose?.();
@@ -16,9 +14,7 @@ export default function Modal({ open, onClose, title, children, maxWidth = "max-
       document.body.style.overflow = prev;
     };
   }, [open, onClose]);
-
   if (!open) return null;
-
   return (
     <div
       className="fixed inset-0 z-[60] flex items-start justify-center overflow-y-auto bg-slate-900/50 p-4 sm:items-center"

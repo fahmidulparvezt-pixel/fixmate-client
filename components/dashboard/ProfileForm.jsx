@@ -7,15 +7,12 @@ import { useSession } from "@/lib/auth-client";
 import { authFetch } from "@/lib/api";
 import { imageError, uploadImage } from "@/lib/imgbb";
 import { ROLE_BADGE } from "@/lib/dashboard-menu";
-
 const inputClass =
   "w-full rounded-lg border px-4 py-2.5 text-sm text-slate-900 outline-none transition focus:ring-2";
 const okBorder = "border-slate-300 focus:border-blue-500 focus:ring-blue-200";
 const errBorder = "border-red-400 focus:border-red-500 focus:ring-red-200";
 const readOnlyClass = `${inputClass} ${okBorder} cursor-not-allowed bg-slate-50 text-slate-500`;
-
 const BIO_MAX = 300;
-
 function validate({ name, phone, bio }) {
   const errors = {};
   if (name.trim().length < 2) errors.name = "Name must be at least 2 characters";
@@ -24,11 +21,9 @@ function validate({ name, phone, bio }) {
   if (bio.length > BIO_MAX) errors.bio = `Bio can be at most ${BIO_MAX} characters`;
   return errors;
 }
-
 export default function ProfileForm() {
   const { data: session, refetch } = useSession();
   const user = session?.user;
-
   const [values, setValues] = useState({
     name: user?.name || "",
     phone: user?.phone || "",
@@ -39,31 +34,32 @@ export default function ProfileForm() {
   const [preview, setPreview] = useState("");
   const [errors, setErrors] = useState({});
   const [saving, setSaving] = useState(false);
-
-  // Preview URL cleanup
   useEffect(() => {
     return () => {
       if (preview) URL.revokeObjectURL(preview);
     };
   }, [preview]);
-
   const role = ["customer", "technician", "admin"].includes(user?.role) ? user.role : "customer";
   const badge = ROLE_BADGE[role];
   const photo = preview || user?.image;
-
   const dirty =
     Boolean(file) ||
     values.name.trim() !== (user?.name || "") ||
     values.phone.trim() !== (user?.phone || "") ||
     values.area.trim() !== (user?.area || "") ||
     values.bio.trim() !== (user?.bio || "");
-
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setValues((v) => ({ ...v, [name]: value }));
-    if (errors[name]) setErrors((er) => ({ ...er, [name]: undefined }));
+    setValues((v) => ({
+      ...v,
+      [name]: value,
+    }));
+    if (errors[name])
+      setErrors((er) => ({
+        ...er,
+        [name]: undefined,
+      }));
   };
-
   const handleFile = (e) => {
     const picked = e.target.files?.[0];
     e.target.value = "";
@@ -76,13 +72,11 @@ export default function ProfileForm() {
     setFile(picked);
     setPreview(URL.createObjectURL(picked));
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const found = validate(values);
     setErrors(found);
     if (Object.keys(found).length > 0) return;
-
     setSaving(true);
     try {
       const payload = {
@@ -92,15 +86,11 @@ export default function ProfileForm() {
         bio: values.bio.trim(),
       };
       if (file) payload.image = await uploadImage(file);
-
       await authFetch("/api/users/profile", {
         method: "PATCH",
         body: JSON.stringify(payload),
       });
-
-      // Session refresh, tai navbar ar top bar e notun name/photo logout chara dekhabe
       await refetch?.();
-
       setFile(null);
       setPreview("");
       toast.success("Profile updated successfully");
@@ -110,19 +100,15 @@ export default function ProfileForm() {
       setSaving(false);
     }
   };
-
   if (!user) return null;
-
   return (
     <form
       onSubmit={handleSubmit}
       noValidate
       className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8"
     >
-      {/* Photo */}
       <div className="flex items-center gap-5">
         {photo ? (
-          // eslint-disable-next-line @next/next/no-img-element
           <img
             src={photo}
             alt={user.name || "Profile photo"}
@@ -141,7 +127,9 @@ export default function ProfileForm() {
           </label>
           <p className="mt-2 text-xs text-slate-500">
             JPG, PNG or WEBP, up to 5MB.{" "}
-            {file && <span className="font-medium text-blue-600">New photo uploads when you save.</span>}
+            {file && (
+              <span className="font-medium text-blue-600">New photo uploads when you save.</span>
+            )}
           </p>
         </div>
       </div>

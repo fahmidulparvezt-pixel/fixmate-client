@@ -7,18 +7,15 @@ import { toast } from "sonner";
 import { Info, Wrench, X } from "lucide-react";
 import { useSession } from "@/lib/auth-client";
 import { authFetch } from "@/lib/api";
-
 const inputClass =
   "w-full rounded-lg border px-4 py-2.5 text-sm text-slate-900 outline-none transition focus:ring-2";
 const okBorder = "border-slate-300 focus:border-blue-500 focus:ring-blue-200";
 const errBorder = "border-red-400 focus:border-red-500 focus:ring-red-200";
-
 const todayString = () => {
   const d = new Date();
   d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
   return d.toISOString().split("T")[0];
 };
-
 function validate(values) {
   const errors = {};
   if (!values.phone.trim()) errors.phone = "Phone number is required";
@@ -32,13 +29,11 @@ function validate(values) {
     errors.problemDescription = "Describe the problem in at least 20 characters";
   return errors;
 }
-
 export default function RequestRepair({ service }) {
   const pathname = usePathname();
   const router = useRouter();
   const { data: session, isPending } = useSession();
   const user = session?.user;
-
   const [open, setOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
@@ -48,8 +43,6 @@ export default function RequestRepair({ service }) {
     preferredDate: "",
     problemDescription: "",
   });
-
-  // Esc chaple modal bondho + modal khola thakle background scroll off
   useEffect(() => {
     if (!open) return;
     const onKey = (e) => e.key === "Escape" && setOpen(false);
@@ -60,22 +53,25 @@ export default function RequestRepair({ service }) {
       document.body.style.overflow = "";
     };
   }, [open]);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setValues((v) => ({ ...v, [name]: value }));
-    if (errors[name]) setErrors((er) => ({ ...er, [name]: undefined }));
+    setValues((v) => ({
+      ...v,
+      [name]: value,
+    }));
+    if (errors[name])
+      setErrors((er) => ({
+        ...er,
+        [name]: undefined,
+      }));
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const found = validate(values);
     setErrors(found);
     if (Object.keys(found).length > 0) return;
-
     setSubmitting(true);
     try {
-      // Server baki sob (service/technician info, customer name/email) nijei boshabe
       await authFetch("/api/bookings", {
         method: "POST",
         body: JSON.stringify({
@@ -86,9 +82,13 @@ export default function RequestRepair({ service }) {
           problemDescription: values.problemDescription.trim(),
         }),
       });
-
       setOpen(false);
-      setValues({ phone: "", address: "", preferredDate: "", problemDescription: "" });
+      setValues({
+        phone: "",
+        address: "",
+        preferredDate: "",
+        problemDescription: "",
+      });
       toast.success("Repair request sent!", {
         description: "The technician will review it shortly.",
         action: {
@@ -106,16 +106,11 @@ export default function RequestRepair({ service }) {
       setSubmitting(false);
     }
   };
-
   const baseBtn =
     "flex w-full items-center justify-center gap-2 rounded-lg px-5 py-3 font-semibold transition";
-
-  // 1) session load hocche
   if (isPending) {
     return <div className="h-12 w-full animate-pulse rounded-lg bg-slate-200" />;
   }
-
-  // 2) logged out -> sign in, login er por ei page e fire ashbe
   if (!user) {
     return (
       <Link
@@ -126,15 +121,10 @@ export default function RequestRepair({ service }) {
       </Link>
     );
   }
-
-  // 3) technician / admin -> disabled + notice
   if (user.role !== "customer") {
     return (
       <div>
-        <button
-          disabled
-          className={`${baseBtn} cursor-not-allowed bg-slate-200 text-slate-500`}
-        >
+        <button disabled className={`${baseBtn} cursor-not-allowed bg-slate-200 text-slate-500`}>
           <Wrench size={18} /> Request Repair
         </button>
         <p className="mt-3 flex items-start gap-2 rounded-lg bg-amber-50 px-3 py-2 text-xs text-amber-800">
@@ -144,8 +134,6 @@ export default function RequestRepair({ service }) {
       </div>
     );
   }
-
-  // 4) customer -> button + modal form
   return (
     <>
       <button
@@ -267,13 +255,13 @@ export default function RequestRepair({ service }) {
                   value={values.problemDescription}
                   onChange={handleChange}
                   placeholder="What is wrong with the device? (min 20 characters)"
-                  className={`${inputClass} resize-none ${
-                    errors.problemDescription ? errBorder : okBorder
-                  }`}
+                  className={`${inputClass} resize-none ${errors.problemDescription ? errBorder : okBorder}`}
                 />
                 <div className="mt-1 flex justify-between text-xs">
                   <span className="text-red-600">{errors.problemDescription}</span>
-                  <span className="text-slate-400">{values.problemDescription.trim().length}/20+</span>
+                  <span className="text-slate-400">
+                    {values.problemDescription.trim().length}/20+
+                  </span>
                 </div>
               </div>
 

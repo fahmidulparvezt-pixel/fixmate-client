@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { Wrench } from "lucide-react";
-
 export default function Logo({ className = "" }) {
   return (
     <Link href="/" className={`inline-flex items-center gap-2 ${className}`}>

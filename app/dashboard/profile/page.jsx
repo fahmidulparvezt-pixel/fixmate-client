@@ -1,7 +1,7 @@
 import ProfileForm from "@/components/dashboard/ProfileForm";
-
-export const metadata = { title: "Update Profile | FixMate" };
-
+export const metadata = {
+  title: "Update Profile | FixMate",
+};
 export default function ProfilePage() {
   return (
     <div className="mx-auto max-w-3xl">

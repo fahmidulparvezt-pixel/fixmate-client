@@ -7,21 +7,20 @@ import { toast } from "sonner";
 import { CheckCircle2, Loader2, XCircle } from "lucide-react";
 import { apiFetch } from "@/lib/api";
 import { formatMoney } from "@/lib/format";
-
 export default function PaymentSuccess() {
   const sessionId = useSearchParams().get("session_id");
   const [state, setState] = useState(sessionId ? "loading" : "error");
   const [payment, setPayment] = useState(null);
   const [message, setMessage] = useState(sessionId ? "" : "Missing payment session.");
   const started = useRef(false);
-
   useEffect(() => {
     if (!sessionId || started.current) return;
     started.current = true;
-
     (async () => {
       try {
-        const data = await apiFetch(`/api/payments/verify?session_id=${encodeURIComponent(sessionId)}`);
+        const data = await apiFetch(
+          `/api/payments/verify?session_id=${encodeURIComponent(sessionId)}`,
+        );
         setPayment(data);
         setState("success");
         toast.success("Payment successful!");
@@ -31,7 +30,6 @@ export default function PaymentSuccess() {
       }
     })();
   }, [sessionId]);
-
   return (
     <section className="flex min-h-[70vh] items-center justify-center px-4 py-16">
       <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-8 text-center shadow-sm">

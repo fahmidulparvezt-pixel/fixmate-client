@@ -15,7 +15,6 @@ import {
 import { CheckCircle2, ClipboardList, Hammer, Search } from "lucide-react";
 import StatsCard from "@/components/dashboard/StatsCard";
 import { apiFetch } from "@/lib/api";
-
 const STATUS_COLORS = {
   requested: "#3b82f6",
   accepted: "#6366f1",
@@ -24,14 +23,11 @@ const STATUS_COLORS = {
   rejected: "#ef4444",
   cancelled: "#9ca3af",
 };
-
 const ACTIVE = ["requested", "accepted", "in-progress"];
-
 export default function CustomerOverview() {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
   const load = async () => {
     setLoading(true);
     setError("");
@@ -43,20 +39,18 @@ export default function CustomerOverview() {
       setLoading(false);
     }
   };
-
   useEffect(() => {
     load();
   }, []);
-
   const active = bookings.filter((b) => ACTIVE.includes(b.status)).length;
   const completed = bookings.filter((b) => b.status === "completed").length;
-  const toPay = bookings.filter((b) => b.status === "completed" && b.paymentStatus === "unpaid").length;
-
+  const toPay = bookings.filter(
+    (b) => b.status === "completed" && b.paymentStatus === "unpaid",
+  ).length;
   const chartData = Object.keys(STATUS_COLORS).map((status) => ({
     status,
     count: bookings.filter((b) => b.status === status).length,
   }));
-
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
@@ -142,11 +136,33 @@ export default function CustomerOverview() {
             ) : (
               <div className="mt-4 h-64 w-full">
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={chartData} margin={{ top: 8, right: 8, left: -20, bottom: 0 }}>
+                  <BarChart
+                    data={chartData}
+                    margin={{
+                      top: 8,
+                      right: 8,
+                      left: -20,
+                      bottom: 0,
+                    }}
+                  >
                     <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                    <XAxis dataKey="status" tick={{ fontSize: 12 }} />
-                    <YAxis allowDecimals={false} tick={{ fontSize: 12 }} />
-                    <Tooltip cursor={{ fill: "#f1f5f9" }} />
+                    <XAxis
+                      dataKey="status"
+                      tick={{
+                        fontSize: 12,
+                      }}
+                    />
+                    <YAxis
+                      allowDecimals={false}
+                      tick={{
+                        fontSize: 12,
+                      }}
+                    />
+                    <Tooltip
+                      cursor={{
+                        fill: "#f1f5f9",
+                      }}
+                    />
                     <Bar dataKey="count" name="Requests" radius={[6, 6, 0, 0]}>
                       {chartData.map((entry) => (
                         <Cell key={entry.status} fill={STATUS_COLORS[entry.status]} />

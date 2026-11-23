@@ -6,24 +6,35 @@ import { Check, ClipboardCheck, X } from "lucide-react";
 import ConfirmModal from "@/components/dashboard/ConfirmModal";
 import StatusBadge from "@/components/dashboard/StatusBadge";
 import { apiFetch } from "@/lib/api";
-
 const FILTERS = [
-  { value: "pending", label: "Pending" },
-  { value: "approved", label: "Approved" },
-  { value: "rejected", label: "Rejected" },
-  { value: "all", label: "All" },
+  {
+    value: "pending",
+    label: "Pending",
+  },
+  {
+    value: "approved",
+    label: "Approved",
+  },
+  {
+    value: "rejected",
+    label: "Rejected",
+  },
+  {
+    value: "all",
+    label: "All",
+  },
 ];
-
 function TableSkeleton() {
   return (
     <div className="space-y-3 p-5">
-      {Array.from({ length: 4 }).map((_, i) => (
+      {Array.from({
+        length: 4,
+      }).map((_, i) => (
         <div key={i} className="h-16 animate-pulse rounded-xl bg-slate-100" />
       ))}
     </div>
   );
 }
-
 export default function ServiceApproval() {
   const [filter, setFilter] = useState("pending");
   const [services, setServices] = useState([]);
@@ -32,7 +43,6 @@ export default function ServiceApproval() {
   const [busyId, setBusyId] = useState("");
   const [rejecting, setRejecting] = useState(null);
   const [reloadKey, setReloadKey] = useState(0);
-
   useEffect(() => {
     let cancelled = false;
     (async () => {
@@ -52,19 +62,27 @@ export default function ServiceApproval() {
       cancelled = true;
     };
   }, [filter, reloadKey]);
-
   const decide = async (service, approvalStatus) => {
     setBusyId(service._id);
     try {
       await apiFetch(`/api/admin/services/${service._id}/approval`, {
         method: "PATCH",
-        body: JSON.stringify({ approvalStatus }),
+        body: JSON.stringify({
+          approvalStatus,
+        }),
       });
       toast.success(approvalStatus === "approved" ? "Service approved" : "Service rejected");
       setServices((list) =>
         filter === "all"
-          ? list.map((s) => (s._id === service._id ? { ...s, approvalStatus } : s))
-          : list.filter((s) => s._id !== service._id)
+          ? list.map((s) =>
+              s._id === service._id
+                ? {
+                    ...s,
+                    approvalStatus,
+                  }
+                : s,
+            )
+          : list.filter((s) => s._id !== service._id),
       );
       setRejecting(null);
     } catch (err) {
@@ -73,7 +91,6 @@ export default function ServiceApproval() {
       setBusyId("");
     }
   };
-
   return (
     <div className="space-y-6">
       <div>
@@ -88,11 +105,7 @@ export default function ServiceApproval() {
           <button
             key={value}
             onClick={() => setFilter(value)}
-            className={`rounded-full px-4 py-1.5 text-sm font-semibold transition ${
-              filter === value
-                ? "bg-blue-600 text-white"
-                : "border border-slate-300 bg-white text-slate-600 hover:bg-slate-50"
-            }`}
+            className={`rounded-full px-4 py-1.5 text-sm font-semibold transition ${filter === value ? "bg-blue-600 text-white" : "border border-slate-300 bg-white text-slate-600 hover:bg-slate-50"}`}
           >
             {label}
           </button>
@@ -150,7 +163,6 @@ export default function ServiceApproval() {
                   <tr key={service._id} className="align-middle">
                     <td className="px-5 py-3">
                       <div className="flex items-center gap-3">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={service.image}
                           alt={service.title}

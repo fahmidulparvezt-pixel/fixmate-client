@@ -5,8 +5,14 @@ const TONES = {
   purple: "bg-purple-100 text-purple-600",
   red: "bg-red-100 text-red-600",
 };
-
-export default function StatsCard({ icon: Icon, label, value, tone = "blue", hint, loading = false }) {
+export default function StatsCard({
+  icon: Icon,
+  label,
+  value,
+  tone = "blue",
+  hint,
+  loading = false,
+}) {
   return (
     <div className="flex items-center gap-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
       <span

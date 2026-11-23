@@ -1,5 +1,3 @@
-// Next.js server start howar shomoy ekbar chole.
-// ISP er DNS e mongodb+srv lookup fail korle Google/Cloudflare DNS use hobe.
 export async function register() {
   if (process.env.NEXT_RUNTIME === "nodejs") {
     const dnsModule = await import("node:dns");

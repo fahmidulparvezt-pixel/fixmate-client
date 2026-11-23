@@ -15,7 +15,6 @@ import {
 import { BadgeCheck, Inbox, PlusCircle, Wrench } from "lucide-react";
 import StatsCard from "@/components/dashboard/StatsCard";
 import { apiFetch } from "@/lib/api";
-
 const STATUS_COLORS = {
   requested: "#3b82f6",
   accepted: "#6366f1",
@@ -24,12 +23,13 @@ const STATUS_COLORS = {
   rejected: "#ef4444",
   cancelled: "#9ca3af",
 };
-
 export default function TechnicianOverview() {
-  const [data, setData] = useState({ services: [], bookings: [] });
+  const [data, setData] = useState({
+    services: [],
+    bookings: [],
+  });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
   const load = async () => {
     setLoading(true);
     setError("");
@@ -38,33 +38,34 @@ export default function TechnicianOverview() {
         apiFetch("/api/services/my"),
         apiFetch("/api/bookings/technician"),
       ]);
-      setData({ services, bookings });
+      setData({
+        services,
+        bookings,
+      });
     } catch (err) {
       setError(err?.message || "Could not load your overview");
     } finally {
       setLoading(false);
     }
   };
-
   useEffect(() => {
     load();
   }, []);
-
   const { services, bookings } = data;
   const approved = services.filter((s) => s.approvalStatus === "approved").length;
   const pendingRequests = bookings.filter((b) => b.status === "requested").length;
-
   const chartData = Object.keys(STATUS_COLORS).map((status) => ({
     status,
     count: bookings.filter((b) => b.status === status).length,
   }));
-
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-slate-900">Technician Overview</h1>
-          <p className="mt-1 text-sm text-slate-600">Your services and repair requests at a glance.</p>
+          <p className="mt-1 text-sm text-slate-600">
+            Your services and repair requests at a glance.
+          </p>
         </div>
         <Link
           href="/dashboard/technician/add-service"
@@ -125,11 +126,33 @@ export default function TechnicianOverview() {
             ) : (
               <div className="mt-4 h-64 w-full">
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={chartData} margin={{ top: 8, right: 8, left: -20, bottom: 0 }}>
+                  <BarChart
+                    data={chartData}
+                    margin={{
+                      top: 8,
+                      right: 8,
+                      left: -20,
+                      bottom: 0,
+                    }}
+                  >
                     <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                    <XAxis dataKey="status" tick={{ fontSize: 12 }} />
-                    <YAxis allowDecimals={false} tick={{ fontSize: 12 }} />
-                    <Tooltip cursor={{ fill: "#f1f5f9" }} />
+                    <XAxis
+                      dataKey="status"
+                      tick={{
+                        fontSize: 12,
+                      }}
+                    />
+                    <YAxis
+                      allowDecimals={false}
+                      tick={{
+                        fontSize: 12,
+                      }}
+                    />
+                    <Tooltip
+                      cursor={{
+                        fill: "#f1f5f9",
+                      }}
+                    />
                     <Bar dataKey="count" name="Jobs" radius={[6, 6, 0, 0]}>
                       {chartData.map((entry) => (
                         <Cell key={entry.status} fill={STATUS_COLORS[entry.status]} />

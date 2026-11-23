@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { Hammer, Home, Settings, Wrench } from "lucide-react";
 import Logo from "@/components/layout/Logo";
-
-export const metadata = { title: "Page Not Found | FixMate" };
-
+export const metadata = {
+  title: "Page Not Found | FixMate",
+};
 export default function NotFound() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-blue-50 via-white to-white px-4 text-center">

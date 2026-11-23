@@ -1,25 +1,43 @@
 import Link from "next/link";
-import {
-  Laptop,
-  Refrigerator,
-  Smartphone,
-  Snowflake,
-  Tv,
-  WashingMachine,
-  Zap,
-} from "lucide-react";
+import { Laptop, Refrigerator, Smartphone, Snowflake, Tv, WashingMachine, Zap } from "lucide-react";
 import SectionHeading from "@/components/ui/SectionHeading";
-
 const CATEGORY_ITEMS = [
-  { name: "Smartphone", icon: Smartphone, note: "Screen, battery, charging port" },
-  { name: "Laptop & PC", icon: Laptop, note: "Servicing, upgrades, repairs" },
-  { name: "AC", icon: Snowflake, note: "Servicing, gas refill, install" },
-  { name: "Refrigerator", icon: Refrigerator, note: "Cooling, compressor, repair" },
-  { name: "TV", icon: Tv, note: "Panel, board and backlight fixes" },
-  { name: "Washing Machine", icon: WashingMachine, note: "Motor, drain and drum repair" },
-  { name: "Electrical", icon: Zap, note: "Wiring, switches and fittings" },
+  {
+    name: "Smartphone",
+    icon: Smartphone,
+    note: "Screen, battery, charging port",
+  },
+  {
+    name: "Laptop & PC",
+    icon: Laptop,
+    note: "Servicing, upgrades, repairs",
+  },
+  {
+    name: "AC",
+    icon: Snowflake,
+    note: "Servicing, gas refill, install",
+  },
+  {
+    name: "Refrigerator",
+    icon: Refrigerator,
+    note: "Cooling, compressor, repair",
+  },
+  {
+    name: "TV",
+    icon: Tv,
+    note: "Panel, board and backlight fixes",
+  },
+  {
+    name: "Washing Machine",
+    icon: WashingMachine,
+    note: "Motor, drain and drum repair",
+  },
+  {
+    name: "Electrical",
+    icon: Zap,
+    note: "Wiring, switches and fittings",
+  },
 ];
-
 export default function Categories() {
   return (
     <section className="py-16 sm:py-20">

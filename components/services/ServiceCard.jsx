@@ -1,11 +1,9 @@
 import Link from "next/link";
 import { MapPin, UserRound, Wrench } from "lucide-react";
-
 export default function ServiceCard({ service }) {
   return (
     <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-md">
       <div className="relative h-48 w-full shrink-0 bg-slate-100">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={service.image}
           alt={service.title}

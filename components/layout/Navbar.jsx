@@ -8,28 +8,41 @@ import { LayoutDashboard, LogOut, Menu, UserCog, X } from "lucide-react";
 import Logo from "@/components/layout/Logo";
 import { signOut, useSession } from "@/lib/auth-client";
 import { DASHBOARD_HOME } from "@/lib/constants";
-
 const NAV_LINKS = [
-  { href: "/", label: "Home" },
-  { href: "/services", label: "Services" },
-  { href: "/about", label: "How It Works" },
+  {
+    href: "/",
+    label: "Home",
+  },
+  {
+    href: "/services",
+    label: "Services",
+  },
+  {
+    href: "/about",
+    label: "How It Works",
+  },
 ];
-
 const ROLE_BADGE = {
-  customer: { label: "Customer", style: "bg-blue-100 text-blue-700" },
-  technician: { label: "Technician", style: "bg-amber-100 text-amber-700" },
-  admin: { label: "Admin", style: "bg-purple-100 text-purple-700" },
+  customer: {
+    label: "Customer",
+    style: "bg-blue-100 text-blue-700",
+  },
+  technician: {
+    label: "Technician",
+    style: "bg-amber-100 text-amber-700",
+  },
+  admin: {
+    label: "Admin",
+    style: "bg-purple-100 text-purple-700",
+  },
 };
-
 function isActive(pathname, href) {
   if (href === "/") return pathname === "/";
   return pathname === href || pathname.startsWith(`${href}/`);
 }
-
 function Avatar({ user, size = "h-10 w-10" }) {
   if (user?.image) {
     return (
-      // eslint-disable-next-line @next/next/no-img-element
       <img
         src={user.image}
         alt={user.name || "User"}
@@ -46,18 +59,14 @@ function Avatar({ user, size = "h-10 w-10" }) {
     </span>
   );
 }
-
 export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
   const { data: session, isPending } = useSession();
   const user = session?.user;
-
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
-
-  // dropdown er baire click korle bondho hobe
   useEffect(() => {
     const handleClick = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
@@ -67,7 +76,6 @@ export default function Navbar() {
     document.addEventListener("mousedown", handleClick);
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
-
   const handleSignOut = async () => {
     setDropdownOpen(false);
     setMenuOpen(false);
@@ -80,26 +88,19 @@ export default function Navbar() {
     router.push("/");
     router.refresh();
   };
-
   const badge = ROLE_BADGE[user?.role] || ROLE_BADGE.customer;
   const dashboardHref = DASHBOARD_HOME[user?.role] || DASHBOARD_HOME.customer;
-
   return (
     <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/90 backdrop-blur">
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Logo />
 
-        {/* Desktop links */}
         <ul className="hidden items-center gap-1 md:flex">
           {NAV_LINKS.map(({ href, label }) => (
             <li key={href}>
               <Link
                 href={href}
-                className={`rounded-lg px-4 py-2 text-sm font-medium transition ${
-                  isActive(pathname, href)
-                    ? "bg-blue-50 text-blue-700"
-                    : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
-                }`}
+                className={`rounded-lg px-4 py-2 text-sm font-medium transition ${isActive(pathname, href) ? "bg-blue-50 text-blue-700" : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"}`}
               >
                 {label}
               </Link>
@@ -107,7 +108,6 @@ export default function Navbar() {
           ))}
         </ul>
 
-        {/* Desktop right side */}
         <div className="hidden items-center gap-3 md:flex">
           {isPending ? (
             <span className="h-10 w-10 animate-pulse rounded-full bg-slate-200" />
@@ -175,7 +175,6 @@ export default function Navbar() {
           )}
         </div>
 
-        {/* Mobile hamburger */}
         <button
           onClick={() => setMenuOpen((o) => !o)}
           aria-label="Toggle menu"
@@ -186,7 +185,6 @@ export default function Navbar() {
         </button>
       </nav>
 
-      {/* Mobile menu */}
       {menuOpen && (
         <div className="border-t border-slate-200 bg-white px-4 pb-5 pt-3 md:hidden">
           <ul className="space-y-1">
@@ -195,11 +193,7 @@ export default function Navbar() {
                 <Link
                   href={href}
                   onClick={() => setMenuOpen(false)}
-                  className={`block rounded-lg px-4 py-2.5 text-sm font-medium ${
-                    isActive(pathname, href)
-                      ? "bg-blue-50 text-blue-700"
-                      : "text-slate-700 hover:bg-slate-100"
-                  }`}
+                  className={`block rounded-lg px-4 py-2.5 text-sm font-medium ${isActive(pathname, href) ? "bg-blue-50 text-blue-700" : "text-slate-700 hover:bg-slate-100"}`}
                 >
                   {label}
                 </Link>

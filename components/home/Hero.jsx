@@ -1,17 +1,26 @@
 import { CheckCircle2, Search, ShieldCheck, Wallet } from "lucide-react";
-
 const TRACKER_STEPS = [
-  { label: "Requested", state: "done" },
-  { label: "Accepted", state: "done" },
-  { label: "In Progress", state: "active" },
-  { label: "Completed", state: "todo" },
+  {
+    label: "Requested",
+    state: "done",
+  },
+  {
+    label: "Accepted",
+    state: "done",
+  },
+  {
+    label: "In Progress",
+    state: "active",
+  },
+  {
+    label: "Completed",
+    state: "todo",
+  },
 ];
-
 export default function Hero() {
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-blue-50 via-white to-white">
       <div className="mx-auto grid max-w-7xl items-center gap-12 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:px-8 lg:py-24">
-        {/* Text side */}
         <div>
           <span className="inline-flex items-center gap-2 rounded-full bg-blue-100 px-4 py-1.5 text-sm font-semibold text-blue-700">
             <ShieldCheck size={16} /> Verified technicians only
@@ -23,11 +32,15 @@ export default function Hero() {
           </h1>
 
           <p className="mt-5 max-w-xl text-lg leading-relaxed text-slate-600">
-            Book repairs for phones, laptops, AC, fridge, TV and more. Track every step of the
-            job and pay online only after the work is done.
+            Book repairs for phones, laptops, AC, fridge, TV and more. Track every step of the job
+            and pay online only after the work is done.
           </p>
 
-          <form action="/services" method="get" className="mt-8 flex max-w-xl flex-col gap-3 sm:flex-row">
+          <form
+            action="/services"
+            method="get"
+            className="mt-8 flex max-w-xl flex-col gap-3 sm:flex-row"
+          >
             <div className="relative flex-1">
               <Search
                 size={18}
@@ -36,7 +49,7 @@ export default function Hero() {
               <input
                 type="text"
                 name="search"
-                placeholder="Try &quot;iPhone screen&quot; or &quot;AC service&quot;"
+                placeholder='Try "iPhone screen" or "AC service"'
                 aria-label="Search repair services"
                 className="w-full rounded-lg border border-slate-300 bg-white py-3 pl-11 pr-4 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
               />
@@ -59,7 +72,6 @@ export default function Hero() {
           </ul>
         </div>
 
-        {/* Illustration side: job tracker mock card */}
         <div className="relative mx-auto w-full max-w-md">
           <div className="absolute -left-6 -top-6 h-40 w-40 rounded-full bg-blue-200/50 blur-2xl" />
           <div className="absolute -bottom-6 -right-6 h-40 w-40 rounded-full bg-amber-200/50 blur-2xl" />
@@ -82,20 +94,12 @@ export default function Hero() {
               {TRACKER_STEPS.map(({ label, state }) => (
                 <li key={label} className="flex items-center gap-3">
                   <span
-                    className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold ${
-                      state === "done"
-                        ? "bg-green-500 text-white"
-                        : state === "active"
-                        ? "bg-amber-500 text-white ring-4 ring-amber-100"
-                        : "bg-slate-200 text-slate-500"
-                    }`}
+                    className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold ${state === "done" ? "bg-green-500 text-white" : state === "active" ? "bg-amber-500 text-white ring-4 ring-amber-100" : "bg-slate-200 text-slate-500"}`}
                   >
                     {state === "done" ? "✓" : ""}
                   </span>
                   <span
-                    className={`text-sm font-medium ${
-                      state === "todo" ? "text-slate-400" : "text-slate-800"
-                    }`}
+                    className={`text-sm font-medium ${state === "todo" ? "text-slate-400" : "text-slate-800"}`}
                   >
                     {label}
                   </span>
