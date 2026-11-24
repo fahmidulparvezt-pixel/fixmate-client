@@ -1,9 +1,11 @@
 import Link from "next/link";
-import { MapPin, UserRound, Wrench } from "lucide-react";
+import { MapPin, Phone, UserRound, Wrench } from "lucide-react";
+
 export default function ServiceCard({ service }) {
   return (
     <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-md">
       <div className="relative h-48 w-full shrink-0 bg-slate-100">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={service.image}
           alt={service.title}
@@ -33,6 +35,17 @@ export default function ServiceCard({ service }) {
             <UserRound size={15} className="shrink-0 text-slate-400" />
             <span className="truncate">{service.technicianName}</span>
           </li>
+          {service.technicianPhone && (
+            <li className="flex items-center gap-2">
+              <Phone size={15} className="shrink-0 text-slate-400" />
+              <a
+                href={`tel:${service.technicianPhone.replace(/[^\d+]/g, "")}`}
+                className="truncate transition hover:text-blue-600"
+              >
+                {service.technicianPhone}
+              </a>
+            </li>
+          )}
         </ul>
 
         <div className="mt-auto flex items-center justify-between gap-3 pt-5">
