@@ -1,22 +1,108 @@
 import { CheckCircle2, Search, ShieldCheck, Wallet } from "lucide-react";
-const TRACKER_STEPS = [
-  {
-    label: "Requested",
-    state: "done",
-  },
-  {
-    label: "Accepted",
-    state: "done",
-  },
-  {
-    label: "In Progress",
-    state: "active",
-  },
-  {
-    label: "Completed",
-    state: "todo",
-  },
-];
+
+function HeroIllustration() {
+  return (
+    <svg
+      viewBox="0 0 520 440"
+      role="img"
+      aria-label="A smartphone being repaired with a wrench and screwdriver"
+      className="mx-auto h-auto w-full max-w-lg"
+    >
+      <defs>
+        <linearGradient id="heroScreen" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#2563eb" />
+          <stop offset="1" stopColor="#7c3aed" />
+        </linearGradient>
+        <linearGradient id="heroBlob" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#dbeafe" />
+          <stop offset="1" stopColor="#e0e7ff" />
+        </linearGradient>
+        <filter id="heroShadow" x="-20%" y="-20%" width="140%" height="160%">
+          <feDropShadow dx="0" dy="10" stdDeviation="10" floodColor="#1e3a8a" floodOpacity="0.2" />
+        </filter>
+      </defs>
+
+      <ellipse cx="260" cy="225" rx="235" ry="200" fill="url(#heroBlob)" />
+      <circle cx="70" cy="70" r="6" fill="#93c5fd" />
+      <circle cx="470" cy="60" r="9" fill="#c4b5fd" />
+      <circle cx="480" cy="390" r="7" fill="#93c5fd" />
+      <circle cx="40" cy="300" r="5" fill="#c4b5fd" />
+
+      <g transform="translate(110 110)">
+        <circle r="30" fill="none" stroke="#3b82f6" strokeWidth="11" strokeDasharray="10.5 10.5" />
+        <circle r="24" fill="#3b82f6" />
+        <circle r="9" fill="#eff6ff" />
+      </g>
+      <g transform="translate(462 215)">
+        <circle r="19" fill="none" stroke="#8b5cf6" strokeWidth="8" strokeDasharray="7 7" />
+        <circle r="15" fill="#8b5cf6" />
+        <circle r="6" fill="#eff6ff" />
+      </g>
+
+      <g filter="url(#heroShadow)">
+        <rect x="190" y="62" width="140" height="300" rx="28" fill="#1e293b" />
+        <rect x="200" y="76" width="120" height="272" rx="20" fill="url(#heroScreen)" />
+        <rect x="240" y="82" width="40" height="8" rx="4" fill="#0f172a" />
+
+        <g fill="none" stroke="#ffffff" strokeOpacity="0.85" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <polyline points="200,140 236,172 222,206 268,238 252,276" />
+          <polyline points="236,172 262,160 292,176" />
+          <polyline points="268,238 300,230" />
+        </g>
+
+        <g transform="translate(260 120)">
+          <circle r="22" fill="#ffffff" fillOpacity="0.18" />
+          <path
+            d="M-9 4 L3 -8 M-3 -10 A8 8 0 0 1 9 -2 L12 1 L5 8 L2 5 A8 8 0 0 1 -9 4"
+            fill="none"
+            stroke="#ffffff"
+            strokeWidth="3"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </g>
+
+        <text x="260" y="308" textAnchor="middle" fontSize="12" fontWeight="700" fill="#ffffff" fontFamily="Arial, sans-serif">
+          Repairing...
+        </text>
+        <rect x="216" y="318" width="88" height="8" rx="4" fill="#ffffff" fillOpacity="0.3" />
+        <rect x="216" y="318" width="56" height="8" rx="4" fill="#4ade80" />
+      </g>
+
+      <g transform="translate(405 330) rotate(-35)" filter="url(#heroShadow)">
+        <rect x="-9" y="-6" width="18" height="120" rx="9" fill="#f59e0b" />
+        <circle cx="0" cy="-14" r="26" fill="#f59e0b" />
+        <rect x="-10" y="-50" width="20" height="26" fill="#dbeafe" />
+        <circle cx="0" cy="104" r="5" fill="#fef3c7" />
+      </g>
+
+      <g transform="translate(88 335) rotate(38)" filter="url(#heroShadow)">
+        <rect x="-11" y="0" width="22" height="64" rx="10" fill="#ef4444" />
+        <rect x="-11" y="22" width="22" height="8" fill="#b91c1c" />
+        <rect x="-4" y="-62" width="8" height="64" rx="3" fill="#94a3b8" />
+        <polygon points="-4,-62 4,-62 2,-74 -2,-74" fill="#64748b" />
+      </g>
+
+      <g filter="url(#heroShadow)">
+        <rect x="345" y="92" width="150" height="54" rx="16" fill="#ffffff" />
+        <circle cx="372" cy="119" r="14" fill="#dcfce7" />
+        <path d="M365 119 l5 5 l9 -10" fill="none" stroke="#16a34a" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+        <text x="394" y="115" fontSize="12" fontWeight="700" fill="#0f172a" fontFamily="Arial, sans-serif">Verified</text>
+        <text x="394" y="130" fontSize="11" fill="#64748b" fontFamily="Arial, sans-serif">Technician</text>
+      </g>
+
+      <g filter="url(#heroShadow)">
+        <rect x="26" y="228" width="160" height="54" rx="16" fill="#ffffff" />
+        <circle cx="54" cy="255" r="14" fill="#ffedd5" />
+        <rect x="46" y="249" width="16" height="12" rx="2.5" fill="none" stroke="#ea580c" strokeWidth="2.5" />
+        <line x1="46" y1="254" x2="62" y2="254" stroke="#ea580c" strokeWidth="2.5" />
+        <text x="76" y="251" fontSize="12" fontWeight="700" fill="#0f172a" fontFamily="Arial, sans-serif">Pay after</text>
+        <text x="76" y="266" fontSize="11" fill="#64748b" fontFamily="Arial, sans-serif">completion</text>
+      </g>
+    </svg>
+  );
+}
+
 export default function Hero() {
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-blue-50 via-white to-white">
@@ -32,15 +118,11 @@ export default function Hero() {
           </h1>
 
           <p className="mt-5 max-w-xl text-lg leading-relaxed text-slate-600">
-            Book repairs for phones, laptops, AC, fridge, TV and more. Track every step of the job
-            and pay online only after the work is done.
+            Book repairs for phones, laptops, AC, fridge, TV and more. Track every step of the
+            job and pay online only after the work is done.
           </p>
 
-          <form
-            action="/services"
-            method="get"
-            className="mt-8 flex max-w-xl flex-col gap-3 sm:flex-row"
-          >
+          <form action="/services" method="get" className="mt-8 flex max-w-xl flex-col gap-3 sm:flex-row">
             <div className="relative flex-1">
               <Search
                 size={18}
@@ -49,7 +131,7 @@ export default function Hero() {
               <input
                 type="text"
                 name="search"
-                placeholder='Try "iPhone screen" or "AC service"'
+                placeholder="Try &quot;iPhone screen&quot; or &quot;AC service&quot;"
                 aria-label="Search repair services"
                 className="w-full rounded-lg border border-slate-300 bg-white py-3 pl-11 pr-4 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
               />
@@ -72,46 +154,8 @@ export default function Hero() {
           </ul>
         </div>
 
-        <div className="relative mx-auto w-full max-w-md">
-          <div className="absolute -left-6 -top-6 h-40 w-40 rounded-full bg-blue-200/50 blur-2xl" />
-          <div className="absolute -bottom-6 -right-6 h-40 w-40 rounded-full bg-amber-200/50 blur-2xl" />
-
-          <div className="relative rounded-3xl border border-slate-200 bg-white p-6 shadow-xl">
-            <div className="flex items-start justify-between gap-3">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                  Repair job #1024
-                </p>
-                <h3 className="mt-1 text-lg font-bold text-slate-900">iPhone Screen Replacement</h3>
-                <p className="text-sm text-slate-500">Technician: Rahim Uddin</p>
-              </div>
-              <span className="rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-700">
-                In Progress
-              </span>
-            </div>
-
-            <ol className="mt-6 space-y-4">
-              {TRACKER_STEPS.map(({ label, state }) => (
-                <li key={label} className="flex items-center gap-3">
-                  <span
-                    className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold ${state === "done" ? "bg-green-500 text-white" : state === "active" ? "bg-amber-500 text-white ring-4 ring-amber-100" : "bg-slate-200 text-slate-500"}`}
-                  >
-                    {state === "done" ? "✓" : ""}
-                  </span>
-                  <span
-                    className={`text-sm font-medium ${state === "todo" ? "text-slate-400" : "text-slate-800"}`}
-                  >
-                    {label}
-                  </span>
-                </li>
-              ))}
-            </ol>
-
-            <div className="mt-6 flex items-center justify-between rounded-xl bg-slate-50 px-4 py-3">
-              <span className="text-sm text-slate-600">Payment</span>
-              <span className="text-sm font-semibold text-orange-600">After completion</span>
-            </div>
-          </div>
+        <div className="relative">
+          <HeroIllustration />
         </div>
       </div>
     </section>
